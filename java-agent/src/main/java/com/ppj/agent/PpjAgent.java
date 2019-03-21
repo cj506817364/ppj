@@ -4,9 +4,7 @@ import sun.misc.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.IllegalClassFormatException;
-import java.lang.instrument.Instrumentation;
+import java.lang.instrument.*;
 import java.security.ProtectionDomain;
 
 /**
@@ -19,7 +17,7 @@ public class PpjAgent {
 
     public static void premain(String args, Instrumentation instrumentation){
 
-        System.out.println("premain");
+        new PpjServer().sayHello();
 
         instrumentation.addTransformer(new ClassFileTransformer() {
             @Override
@@ -39,6 +37,20 @@ public class PpjAgent {
                 return null;
             }
         });
+
+        InputStream input = PpjAgent.class.getResourceAsStream("/PpjServer.class");
+        try {
+            byte[] bytes = IOUtils.readFully(input, -1, false);
+            try {
+                instrumentation.redefineClasses(new ClassDefinition(PpjServer.class,bytes));
+            } catch (ClassNotFoundException | UnmodifiableClassException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 }

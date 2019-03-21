@@ -23,8 +23,8 @@
                             <Project-name>${project.name}</Project-name>
                             <Project-version>${project.version}</Project-version>
                             <Premain-Class>com.ppj.agent.PpjAgent</Premain-Class>
-<!--                            <Can-Redefine-Classes>true</Can-Redefine-Classes>-->
-<!--                            <Can-Retransform-Classes>true</Can-Retransform-Classes>-->
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
 <!--                            <Boot-Class-Path>javassist-3.18.1-GA.jar</Boot-Class-Path>-->
                         </manifestEntries>
                     </archive>
