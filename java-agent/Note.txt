@@ -1,0 +1,5 @@
+javaagent:
+
+主要用于拦截classLoader的类加载过程,可以改变其加载的类,需要有现成的class用于替换本来需要加载的class
+
+javaassit:

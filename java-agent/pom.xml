@@ -11,6 +11,13 @@
 
     <artifactId>java-agent</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.18.1-GA</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -25,7 +32,7 @@
                             <Premain-Class>com.ppj.agent.PpjAgent</Premain-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
-<!--                            <Boot-Class-Path>javassist-3.18.1-GA.jar</Boot-Class-Path>-->
+                            <Boot-Class-Path>javassist-3.18.1-GA.jar</Boot-Class-Path>
                         </manifestEntries>
                     </archive>
                     <skip>true</skip>

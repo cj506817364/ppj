@@ -11,6 +11,6 @@ import com.ppj.agent.PpjServer;
 public class PpjAgentTest {
 
     public static void main(String[] args) {
-        Integer integer = new PpjServer().sayHello();
+        Integer integer = new PpjServer().sayHello("ppj","is handsome boy");
     }
 }
