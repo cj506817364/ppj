@@ -1,6 +1,6 @@
-package com.ppj.test;
+package com.ppj.test.demo;
 
-import com.ppj.agent.PpjServer;
+import com.ppj.agent.demo.PpjServer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,6 +11,6 @@ import com.ppj.agent.PpjServer;
 public class PpjAgentTest {
 
     public static void main(String[] args) {
-        Integer integer = new PpjServer().sayHello("ppj","is handsome boy");
+        new PpjServer().sayHello("ppj","is handsome boy");
     }
 }

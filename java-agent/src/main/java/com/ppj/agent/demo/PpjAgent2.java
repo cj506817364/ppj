@@ -1,4 +1,4 @@
-package com.ppj.agent;
+package com.ppj.agent.demo;
 
 import javassist.*;
 

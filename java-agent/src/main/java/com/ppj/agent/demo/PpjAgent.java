@@ -1,4 +1,4 @@
-package com.ppj.agent;
+package com.ppj.agent.demo;
 
 import javassist.*;
 
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
-import java.lang.instrument.UnmodifiableClassException;
 import java.security.ProtectionDomain;
 
 /**
@@ -17,57 +16,69 @@ import java.security.ProtectionDomain;
  */
 public class PpjAgent {
 
-    public static void premain(String args, Instrumentation instrumentation) throws UnmodifiableClassException {
-
-//        PpjServer server = new PpjServer();
+    public static void premain(String args, Instrumentation instrumentation) {
 
         instrumentation.addTransformer(new ClassFileTransformer() {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
                 // 如果是server方法
-                if(!className.toLowerCase().endsWith("server")){
+                if (!className.toLowerCase().endsWith("server")) {
                     return null;
                 }
 
                 try {
-                    return buildMonitorClass(className.replace("/","."));
+                    return buildMonitorClass(className.replace("/", "."));
                 } catch (NotFoundException | CannotCompileException | IOException e) {
                     e.printStackTrace();
                 }
                 return null;
             }
-        },true);
+        }, true);
 
         // 新方法不能重置与重定义
 //        instrumentation.retransformClasses(PpjServer.class);
 
     }
+
     private static byte[] buildMonitorClass(String className) throws NotFoundException, CannotCompileException, IOException {
         ClassPool pool = new ClassPool();
         pool.appendSystemPath();
         CtClass ctClass = pool.get(className);
-        if(ctClass == null){
+        if (ctClass == null) {
             System.out.println(className + " is null");
             throw new RuntimeException("class no find: " + className);
         }
         CtMethod[] methods = ctClass.getMethods();
         for (CtMethod ctMethod : methods) {
-            if(canModify(ctMethod)){
+            if (canModify(ctMethod)) {
                 String methodName = ctMethod.getName();
                 String newName = methodName + "$agent";
                 ctMethod.setName(newName);
                 CtMethod copyMethod = CtNewMethod.copy(ctMethod, ctClass, new ClassMap());// ClassMap 目前不清楚干嘛的
                 copyMethod.setName(methodName);
-                copyMethod.setBody(
-                        "{" +
-                        "   com.ppj.agent.TraceInfo t = com.ppj.agent.TraceInfo.begin($args);" +
-                        "   try {" +
-                        "       return "+newName+"($$); " +
-                        "   } finally {" +
-                        "       com.ppj.agent.TraceInfo.end(t);" +
-                        "   }" +
-                        "}");
+                if (ctMethod.getReturnType().getName().equals(CtClass.voidType.getName())) {
+                    copyMethod.setBody(
+                            "{" +
+                                    "   com.ppj.agent.demo.TraceInfo t = com.ppj.agent.demo.TraceInfo.begin($args);" +
+                                    "   try {" +
+                                    newName + "($$); " +
+                                    "   } finally {" +
+                                    "       com.ppj.agent.demo.TraceInfo.end(t);" +
+                                    "   }" +
+                                    "}");
+                } else {
+                    copyMethod.setBody(
+                            "{" +
+                                    "   com.ppj.agent.demo.TraceInfo t = com.ppj.agent.demo.TraceInfo.begin($args);" +
+                                    "   try {" +
+                                    "       return " + newName + "($$); " +
+                                    "   } finally {" +
+                                    "       com.ppj.agent.demo.TraceInfo.end(t);" +
+                                    "   }" +
+                                    "}");
+                }
+
                 ctClass.addMethod(copyMethod);
             }
         }
@@ -76,15 +87,13 @@ public class PpjAgent {
     }
 
 
-
-    public static boolean canModify(CtMethod ctMethod){
+    public static boolean canModify(CtMethod ctMethod) {
         int modifiers = ctMethod.getModifiers();
         boolean isAbs = Modifier.isAbstract(modifiers);
         boolean isNative = Modifier.isNative(modifiers);
         boolean isFinal = Modifier.isFinal(modifiers);
         return !isAbs && !isNative && !isFinal;
     }
-
 
 
 }

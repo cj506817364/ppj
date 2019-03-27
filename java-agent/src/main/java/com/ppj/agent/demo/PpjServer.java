@@ -1,4 +1,4 @@
-package com.ppj.agent;
+package com.ppj.agent.demo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,10 +8,8 @@ package com.ppj.agent;
  */
 public class PpjServer {
 
-    public Integer sayHello(String name,String msg){
+    public void sayHello(String name,String msg){
         System.out.println("hello java-agent v2.0");
-        append(name,msg);
-        return 0;
     }
 
     public String append(String name,String msg){
