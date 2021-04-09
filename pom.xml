@@ -14,6 +14,20 @@
         <module>test-server</module>
     </modules>
 
+    <properties>
+        <org.springframework.version>4.0.4.RELEASE</org.springframework.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <slf4j-api.version>1.7.12</slf4j-api.version>
+        <log4j-jcl.version>2.3</log4j-jcl.version>
+        <log4j-api.version>2.3</log4j-api.version>
+        <log4j-core.version>2.3</log4j-core.version>
+        <log4j-slf4j.version>2.3</log4j-slf4j.version>
+        <disruptor.version>3.3.2</disruptor.version>
+        <javax.servlet.version>3.1.0</javax.servlet.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>

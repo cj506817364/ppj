@@ -71,6 +71,7 @@ public class JdbcAgent {
         JdbcStatistics jdbcStat = new JdbcStatistics();
         try {
             jdbcStat.jdbcUrl = connection.getMetaData().getURL();
+            jdbcStat.databaseName = connection.getMetaData().getDatabaseProductName();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,7 +85,9 @@ public class JdbcAgent {
         return jdbcStat;
     }
 
-    private static void end(Object stat) {
+    public static void end(Object obj) {
+        JdbcStatistics stat = (JdbcStatistics) obj;
+        stat.setUseTime(System.nanoTime() - stat.getBegin());
         System.out.println(stat);
     }
 

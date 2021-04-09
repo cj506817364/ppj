@@ -16,8 +16,8 @@ public class JdbcAgentTest {
         User user = new User();
         Connection conn = DriverManager
                 .getConnection(
-                        "jdbc:mysql://47.100.63.227:31306/test",
-                        "root", "Sy2557bln");
+                        "jdbc:mysql://10.1.4.31:3307/test",
+                        "zcw_db_user", "PZ4tEcNVrLhcPxUt");
         PreparedStatement statment = conn
                 .prepareStatement("select * from `user`");
         ResultSet r = statment.executeQuery();
