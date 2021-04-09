@@ -9,7 +9,8 @@ package com.ppj.agent.demo;
 public class PpjServer {
 
     public void sayHello(String name,String msg){
-        System.out.println("hello java-agent v2.0");
+        System.out.println(name + " " + msg);
+//        System.out.println("hello java-agent v2.0");
     }
 
     public String append(String name,String msg){
