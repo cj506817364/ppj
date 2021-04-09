@@ -5,7 +5,7 @@ package com.ppj.test.server.impl;/**
 import com.ppj.test.server.Goods;
 import com.ppj.test.server.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
+//import org.springframework.util.Assert;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -20,7 +20,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Goods getGoods(Long goodsId) {
-        Assert.isTrue(goodsId>10000,"goods id must  less than 10000");
+//        Assert.isTrue(goodsId>10000,"goods id must  less than 10000");
         Goods goods = new Goods();
         goods.setGoodsId(goodsId);
         goods.setGoodsName("路虎");
